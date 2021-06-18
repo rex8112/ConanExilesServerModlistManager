@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ConanExilesModlistManager
@@ -19,7 +12,15 @@ namespace ConanExilesModlistManager
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            ColumnHeader header = new ColumnHeader();
+            header.Text = "Mod Load Order";
+            header.Name = "col1";
+            header.Width = modListView.Width;
+            modListView.Columns.Add(header);
 
+            modListView.View = View.Details;
+            modListView.Items.Add("Test 1");
+            modListView.Items.Add("Test 2");
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -34,9 +35,17 @@ namespace ConanExilesModlistManager
 
         private void GetInfoButton_Click(object sender, EventArgs e)
         {
-            ConanMod mod = new ConanMod(long.Parse(textBox1.Text));
-            titleLabel.Text = "Title: " + mod.title;
-            urlLabel.Text = "URL: " + mod.url;
+            long appID;
+
+            string text = textBox1.Text.Replace(ConanMod.WORKSHOP_TEMPLATE, "");
+            bool isNum = long.TryParse(text, out appID);
+
+            if (isNum)
+            {
+                ConanMod mod = new ConanMod(appID);
+                titleLabel.Text = "Title: " + mod.title;
+                urlLabel.Text = "URL: " + mod.url;
+            }
         }
     }
 }

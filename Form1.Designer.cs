@@ -34,6 +34,7 @@ namespace ConanExilesModlistManager
             this.GetInfoButton = new System.Windows.Forms.Button();
             this.titleLabel = new System.Windows.Forms.Label();
             this.urlLabel = new System.Windows.Forms.Label();
+            this.modListView = new System.Windows.Forms.ListView();
             this.SuspendLayout();
             // 
             // appIDLabel
@@ -82,11 +83,23 @@ namespace ConanExilesModlistManager
             this.urlLabel.TabIndex = 4;
             this.urlLabel.Text = "URL:";
             // 
+            // modListView
+            // 
+            this.modListView.FullRowSelect = true;
+            this.modListView.GridLines = true;
+            this.modListView.HideSelection = false;
+            this.modListView.Location = new System.Drawing.Point(14, 149);
+            this.modListView.Name = "modListView";
+            this.modListView.Size = new System.Drawing.Size(296, 313);
+            this.modListView.TabIndex = 5;
+            this.modListView.UseCompatibleStateImageBehavior = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(846, 474);
+            this.Controls.Add(this.modListView);
             this.Controls.Add(this.urlLabel);
             this.Controls.Add(this.titleLabel);
             this.Controls.Add(this.GetInfoButton);
@@ -108,6 +121,7 @@ namespace ConanExilesModlistManager
         private System.Windows.Forms.Button GetInfoButton;
         private System.Windows.Forms.Label titleLabel;
         private System.Windows.Forms.Label urlLabel;
+        private System.Windows.Forms.ListView modListView;
     }
 }
 

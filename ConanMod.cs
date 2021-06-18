@@ -11,7 +11,7 @@ namespace ConanExilesModlistManager
     class ConanMod
     {
         public const int CONAN_APPID = 440900;
-        private const string WORKSHOP_TEMPLATE = "https://steamcommunity.com/sharedfiles/filedetails/?id={APPID}";
+        public const string WORKSHOP_TEMPLATE = "https://steamcommunity.com/sharedfiles/filedetails/?id=";
 
         public string title;
         public string url;
@@ -20,7 +20,7 @@ namespace ConanExilesModlistManager
         public ConanMod(long appID)
         {
             this.appID = appID;
-            this.url = WORKSHOP_TEMPLATE.Replace("{APPID}", appID.ToString());
+            this.url = WORKSHOP_TEMPLATE + appID.ToString();
             this.title = this.GetTitle(this.url).Replace("Steam Workshop::", "");
         }
 
