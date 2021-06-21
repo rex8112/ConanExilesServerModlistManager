@@ -35,6 +35,12 @@ namespace ConanExilesModlistManager
             this.titleLabel = new System.Windows.Forms.Label();
             this.urlLabel = new System.Windows.Forms.Label();
             this.modListView = new System.Windows.Forms.ListView();
+            this.modLink = new System.Windows.Forms.LinkLabel();
+            this.shiftUp = new System.Windows.Forms.Button();
+            this.shiftDown = new System.Windows.Forms.Button();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.chooseInstallLocation = new System.Windows.Forms.Button();
+            this.installConfirmLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // appIDLabel
@@ -51,17 +57,18 @@ namespace ConanExilesModlistManager
             // 
             this.textBox1.Location = new System.Drawing.Point(72, 12);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(157, 23);
+            this.textBox1.Size = new System.Drawing.Size(284, 23);
             this.textBox1.TabIndex = 1;
+            this.textBox1.Click += new System.EventHandler(this.textBox1_Click);
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // GetInfoButton
             // 
-            this.GetInfoButton.Location = new System.Drawing.Point(235, 12);
+            this.GetInfoButton.Location = new System.Drawing.Point(362, 12);
             this.GetInfoButton.Name = "GetInfoButton";
             this.GetInfoButton.Size = new System.Drawing.Size(75, 23);
             this.GetInfoButton.TabIndex = 2;
-            this.GetInfoButton.Text = "Get Info";
+            this.GetInfoButton.Text = "Add Mod";
             this.GetInfoButton.UseVisualStyleBackColor = true;
             this.GetInfoButton.Click += new System.EventHandler(this.GetInfoButton_Click);
             // 
@@ -89,16 +96,74 @@ namespace ConanExilesModlistManager
             this.modListView.GridLines = true;
             this.modListView.HideSelection = false;
             this.modListView.Location = new System.Drawing.Point(14, 149);
+            this.modListView.MultiSelect = false;
             this.modListView.Name = "modListView";
-            this.modListView.Size = new System.Drawing.Size(296, 313);
+            this.modListView.Size = new System.Drawing.Size(423, 313);
             this.modListView.TabIndex = 5;
             this.modListView.UseCompatibleStateImageBehavior = false;
+            // 
+            // modLink
+            // 
+            this.modLink.AutoSize = true;
+            this.modLink.Location = new System.Drawing.Point(52, 114);
+            this.modLink.Name = "modLink";
+            this.modLink.Size = new System.Drawing.Size(41, 15);
+            this.modLink.TabIndex = 6;
+            this.modLink.TabStop = true;
+            this.modLink.Text = "empty";
+            this.modLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.modLink_LinkClicked);
+            // 
+            // shiftUp
+            // 
+            this.shiftUp.Location = new System.Drawing.Point(443, 257);
+            this.shiftUp.Name = "shiftUp";
+            this.shiftUp.Size = new System.Drawing.Size(40, 40);
+            this.shiftUp.TabIndex = 7;
+            this.shiftUp.Text = "↑";
+            this.shiftUp.UseVisualStyleBackColor = true;
+            this.shiftUp.Click += new System.EventHandler(this.shiftUp_Click);
+            // 
+            // shiftDown
+            // 
+            this.shiftDown.Location = new System.Drawing.Point(443, 303);
+            this.shiftDown.Name = "shiftDown";
+            this.shiftDown.Size = new System.Drawing.Size(40, 40);
+            this.shiftDown.TabIndex = 8;
+            this.shiftDown.Text = "↓";
+            this.shiftDown.UseVisualStyleBackColor = true;
+            this.shiftDown.Click += new System.EventHandler(this.shiftDown_Click);
+            // 
+            // chooseInstallLocation
+            // 
+            this.chooseInstallLocation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chooseInstallLocation.Location = new System.Drawing.Point(806, 12);
+            this.chooseInstallLocation.Name = "chooseInstallLocation";
+            this.chooseInstallLocation.Size = new System.Drawing.Size(28, 23);
+            this.chooseInstallLocation.TabIndex = 9;
+            this.chooseInstallLocation.Text = "...";
+            this.chooseInstallLocation.UseVisualStyleBackColor = true;
+            this.chooseInstallLocation.Click += new System.EventHandler(this.chooseInstallLocation_Click);
+            // 
+            // installConfirmLabel
+            // 
+            this.installConfirmLabel.Location = new System.Drawing.Point(443, 38);
+            this.installConfirmLabel.Name = "installConfirmLabel";
+            this.installConfirmLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.installConfirmLabel.Size = new System.Drawing.Size(391, 52);
+            this.installConfirmLabel.TabIndex = 10;
+            this.installConfirmLabel.Text = "Conan Install Location Unset";
+            this.installConfirmLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(846, 474);
+            this.Controls.Add(this.installConfirmLabel);
+            this.Controls.Add(this.chooseInstallLocation);
+            this.Controls.Add(this.shiftDown);
+            this.Controls.Add(this.shiftUp);
+            this.Controls.Add(this.modLink);
             this.Controls.Add(this.modListView);
             this.Controls.Add(this.urlLabel);
             this.Controls.Add(this.titleLabel);
@@ -122,6 +187,12 @@ namespace ConanExilesModlistManager
         private System.Windows.Forms.Label titleLabel;
         private System.Windows.Forms.Label urlLabel;
         private System.Windows.Forms.ListView modListView;
+        private System.Windows.Forms.LinkLabel modLink;
+        private System.Windows.Forms.Button shiftUp;
+        private System.Windows.Forms.Button shiftDown;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.Button chooseInstallLocation;
+        private System.Windows.Forms.Label installConfirmLabel;
     }
 }
 

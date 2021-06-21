@@ -24,6 +24,32 @@ namespace ConanExilesModlistManager
             this.title = this.GetTitle(this.url).Replace("Steam Workshop::", "");
         }
 
+        public override bool Equals(object obj) => this.Equals(obj as ConanMod);
+
+        public bool Equals(ConanMod mod)
+        {
+            if (ReferenceEquals(this, mod))
+                return true;
+
+            if (this.GetType() != mod.GetType())
+                return false;
+
+            return this.appID == mod.appID;
+        }
+
+        public static bool operator ==(ConanMod lhs, ConanMod rhs)
+        {
+            if (lhs is null)
+            {
+                if (rhs is null)
+                    return true;
+                return false;
+            }
+            return lhs.Equals(rhs);
+        }
+
+        public static bool operator !=(ConanMod lhs, ConanMod rhs) => !(lhs == rhs);
+
         private string GetTitle(string url)
         {
             WebClient wc = new WebClient();

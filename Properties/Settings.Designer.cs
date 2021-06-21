@@ -22,5 +22,17 @@ namespace ConanExilesModlistManager.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string InstallLocation {
+            get {
+                return ((string)(this["InstallLocation"]));
+            }
+            set {
+                this["InstallLocation"] = value;
+            }
+        }
     }
 }
