@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 
 namespace ConanExilesModlistManager
@@ -7,7 +8,20 @@ namespace ConanExilesModlistManager
     public partial class Form1 : Form
     {
         List<ConanMod> mods = new List<ConanMod>();
-        bool installLocationSet = false;
+        private bool _installLocationSet = false;
+        private string modlistLocation = "";
+        public bool InstallLocationSet
+        {
+            set
+            {
+                _installLocationSet = value;
+                loadFromCurrent.Enabled = value;
+            }
+            get
+            {
+                return _installLocationSet;
+            }
+        }
         public Form1()
         {
             InitializeComponent();
@@ -27,7 +41,8 @@ namespace ConanExilesModlistManager
             if (Properties.Settings.Default.InstallLocation != "")
             {
                 installConfirmLabel.Text = Properties.Settings.Default.InstallLocation;
-                installLocationSet = true;
+                InstallLocationSet = true;
+                FillLocations();
             }
         }
 
@@ -91,7 +106,7 @@ namespace ConanExilesModlistManager
             if (index > 0)
             {
                 int newIndex = index - 1;
-                shiftModOrder(index, newIndex);
+                ShiftModOrder(index, newIndex);
             }
         }
 
@@ -101,11 +116,56 @@ namespace ConanExilesModlistManager
             if (index < mods.Count - 1)
             {
                 int newIndex = index + 1;
-                shiftModOrder(index, newIndex);
+                ShiftModOrder(index, newIndex);
             }
         }
 
-        private void shiftModOrder(int index, int newIndex)
+        private void chooseInstallLocation_Click(object sender, EventArgs e)
+        {
+            DialogResult result = folderBrowserDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                Properties.Settings.Default.InstallLocation = folderBrowserDialog1.SelectedPath;
+                Properties.Settings.Default.Save();
+                installConfirmLabel.Text = folderBrowserDialog1.SelectedPath;
+                InstallLocationSet = true;
+                FillLocations();
+            }
+        }
+
+        private void loadFromCurrent_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(modlistLocation))
+            {
+                mods.Clear();
+                modListView.Items.Clear();
+                List<int> appIDs = new List<int>();
+                string location = Properties.Settings.Default.InstallLocation.Replace("common\\Conan Exiles", "workshop\\content\\440900\\");
+                string content = File.ReadAllText(modlistLocation);
+                content = content.Replace("*" + location, "");
+                string[] lines = content.Split("\n");
+                foreach (string line in lines)
+                {
+                    int id;
+                    string idString = line.Split("/")[0];
+                    bool result = int.TryParse(idString, out id);
+                    if (result)
+                        appIDs.Add(id);
+                }
+                foreach (int id in appIDs)
+                {
+                    ConanMod mod = new ConanMod(id);
+
+                    if (!mods.Contains(mod))
+                    {
+                        mods.Add(mod);
+                        modListView.Items.Add(mod.appID.ToString() + " - " + mod.title);
+                    }
+                }
+            }
+        }
+
+        private void ShiftModOrder(int index, int newIndex)
         {
             ConanMod modToChange = mods[index];
             ListViewItem listingToChange = modListView.Items[index];
@@ -119,16 +179,10 @@ namespace ConanExilesModlistManager
             modListView.Items[newIndex].Selected = true;
         }
 
-        private void chooseInstallLocation_Click(object sender, EventArgs e)
+        private void FillLocations()
         {
-            DialogResult result = folderBrowserDialog1.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                Properties.Settings.Default.InstallLocation = folderBrowserDialog1.SelectedPath;
-                Properties.Settings.Default.Save();
-                installConfirmLabel.Text = folderBrowserDialog1.SelectedPath;
-                installLocationSet = true;
-            }
+            string installLocation = Properties.Settings.Default.InstallLocation;
+            modlistLocation = installLocation + "/ConanSandbox/Mods/modlist.txt";
         }
     }
 }

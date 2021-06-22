@@ -41,6 +41,7 @@ namespace ConanExilesModlistManager
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.chooseInstallLocation = new System.Windows.Forms.Button();
             this.installConfirmLabel = new System.Windows.Forms.Label();
+            this.loadFromCurrent = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // appIDLabel
@@ -154,11 +155,23 @@ namespace ConanExilesModlistManager
             this.installConfirmLabel.Text = "Conan Install Location Unset";
             this.installConfirmLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // loadFromCurrent
+            // 
+            this.loadFromCurrent.Enabled = false;
+            this.loadFromCurrent.Location = new System.Drawing.Point(670, 149);
+            this.loadFromCurrent.Name = "loadFromCurrent";
+            this.loadFromCurrent.Size = new System.Drawing.Size(164, 23);
+            this.loadFromCurrent.TabIndex = 11;
+            this.loadFromCurrent.Text = "Load from Current Modlist";
+            this.loadFromCurrent.UseVisualStyleBackColor = true;
+            this.loadFromCurrent.Click += new System.EventHandler(this.loadFromCurrent_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(846, 474);
+            this.Controls.Add(this.loadFromCurrent);
             this.Controls.Add(this.installConfirmLabel);
             this.Controls.Add(this.chooseInstallLocation);
             this.Controls.Add(this.shiftDown);
@@ -193,6 +206,7 @@ namespace ConanExilesModlistManager
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Button chooseInstallLocation;
         private System.Windows.Forms.Label installConfirmLabel;
+        private System.Windows.Forms.Button loadFromCurrent;
     }
 }
 
