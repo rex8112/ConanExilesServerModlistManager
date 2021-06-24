@@ -124,15 +124,8 @@ namespace ConanExilesModlistManager
 
         private void chooseInstallLocation_Click(object sender, EventArgs e)
         {
-            DialogResult result = folderBrowserDialog1.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                Properties.Settings.Default.InstallLocation = folderBrowserDialog1.SelectedPath;
-                Properties.Settings.Default.Save();
-                installConfirmLabel.Text = folderBrowserDialog1.SelectedPath;
-                InstallLocationSet = true;
-                FillLocations();
-            }
+            var locationSetter = new LocationForm();
+            locationSetter.Show();
         }
 
         private void loadFromCurrent_Click(object sender, EventArgs e)

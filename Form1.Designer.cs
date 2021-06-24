@@ -40,7 +40,6 @@ namespace ConanExilesModlistManager
             this.shiftDown = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.chooseInstallLocation = new System.Windows.Forms.Button();
-            this.installConfirmLabel = new System.Windows.Forms.Label();
             this.loadFromCurrent = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -145,16 +144,6 @@ namespace ConanExilesModlistManager
             this.chooseInstallLocation.UseVisualStyleBackColor = true;
             this.chooseInstallLocation.Click += new System.EventHandler(this.chooseInstallLocation_Click);
             // 
-            // installConfirmLabel
-            // 
-            this.installConfirmLabel.Location = new System.Drawing.Point(443, 38);
-            this.installConfirmLabel.Name = "installConfirmLabel";
-            this.installConfirmLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.installConfirmLabel.Size = new System.Drawing.Size(391, 52);
-            this.installConfirmLabel.TabIndex = 10;
-            this.installConfirmLabel.Text = "Conan Install Location Unset";
-            this.installConfirmLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
             // loadFromCurrent
             // 
             this.loadFromCurrent.Enabled = false;
@@ -205,7 +194,6 @@ namespace ConanExilesModlistManager
         private System.Windows.Forms.Button shiftDown;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Button chooseInstallLocation;
-        private System.Windows.Forms.Label installConfirmLabel;
         private System.Windows.Forms.Button loadFromCurrent;
     }
 }
