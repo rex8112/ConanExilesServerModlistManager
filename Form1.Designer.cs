@@ -41,6 +41,8 @@ namespace ConanExilesModlistManager
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.chooseInstallLocation = new System.Windows.Forms.Button();
             this.loadFromCurrent = new System.Windows.Forms.Button();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.progressBarStatus = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // appIDLabel
@@ -101,6 +103,7 @@ namespace ConanExilesModlistManager
             this.modListView.Size = new System.Drawing.Size(423, 313);
             this.modListView.TabIndex = 5;
             this.modListView.UseCompatibleStateImageBehavior = false;
+            this.modListView.SelectedIndexChanged += new System.EventHandler(this.modListView_SelectedIndexChanged);
             // 
             // modLink
             // 
@@ -155,13 +158,35 @@ namespace ConanExilesModlistManager
             this.loadFromCurrent.UseVisualStyleBackColor = true;
             this.loadFromCurrent.Click += new System.EventHandler(this.loadFromCurrent_Click);
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar1.Location = new System.Drawing.Point(12, 499);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(822, 24);
+            this.progressBar1.Step = 1;
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar1.TabIndex = 12;
+            // 
+            // progressBarStatus
+            // 
+            this.progressBarStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBarStatus.Location = new System.Drawing.Point(228, 471);
+            this.progressBarStatus.Name = "progressBarStatus";
+            this.progressBarStatus.Size = new System.Drawing.Size(389, 25);
+            this.progressBarStatus.TabIndex = 13;
+            this.progressBarStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(846, 474);
+            this.ClientSize = new System.Drawing.Size(846, 535);
+            this.Controls.Add(this.progressBarStatus);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.loadFromCurrent);
-            this.Controls.Add(this.installConfirmLabel);
             this.Controls.Add(this.chooseInstallLocation);
             this.Controls.Add(this.shiftDown);
             this.Controls.Add(this.shiftUp);
@@ -172,7 +197,7 @@ namespace ConanExilesModlistManager
             this.Controls.Add(this.GetInfoButton);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.appIDLabel);
-            this.MinimumSize = new System.Drawing.Size(500, 300);
+            this.MinimumSize = new System.Drawing.Size(862, 574);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -195,6 +220,8 @@ namespace ConanExilesModlistManager
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Button chooseInstallLocation;
         private System.Windows.Forms.Button loadFromCurrent;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label progressBarStatus;
     }
 }
 

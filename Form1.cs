@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ConanExilesModlistManager
@@ -40,7 +41,6 @@ namespace ConanExilesModlistManager
 
             if (Properties.Settings.Default.InstallLocation != "")
             {
-                installConfirmLabel.Text = Properties.Settings.Default.InstallLocation;
                 InstallLocationSet = true;
                 FillLocations();
             }
@@ -71,15 +71,9 @@ namespace ConanExilesModlistManager
 
             if (isNum)
             {
-                ConanMod mod = new ConanMod(appID);
+                ConanMod mod = AddMod(appID);
                 titleLabel.Text = "Title: " + mod.title;
                 modLink.Text = mod.url;
-
-                if (!mods.Contains(mod))
-                {
-                    mods.Add(mod);
-                    modListView.Items.Add(mod.appID.ToString() + " - " + mod.title);
-                }
             }
         }
 
@@ -134,27 +128,24 @@ namespace ConanExilesModlistManager
             {
                 mods.Clear();
                 modListView.Items.Clear();
+                progressBar1.Value = 0;
+
                 List<int> appIDs = new List<int>();
                 string location = Properties.Settings.Default.InstallLocation.Replace("common\\Conan Exiles", "workshop\\content\\440900\\");
                 string content = File.ReadAllText(modlistLocation);
                 content = content.Replace("*" + location, "");
-                string[] lines = content.Split("\n");
+                string[] linesArr = content.Split("\n");
+                List<string> lines = new List<string>(linesArr);
+                lines.RemoveAll(delegate (string x) { return x == ""; });
+                progressBar1.Maximum = lines.Count;
+                progressBarStatus.Text = $"Loading from Modlist: {progressBar1.Value}/{progressBar1.Maximum}";
                 foreach (string line in lines)
                 {
-                    int id;
-                    string idString = line.Split("/")[0];
-                    bool result = int.TryParse(idString, out id);
-                    if (result)
-                        appIDs.Add(id);
-                }
-                foreach (int id in appIDs)
-                {
-                    ConanMod mod = new ConanMod(id);
-
-                    if (!mods.Contains(mod))
+                    if (line != "")
                     {
-                        mods.Add(mod);
-                        modListView.Items.Add(mod.appID.ToString() + " - " + mod.title);
+                        AddMod(line);
+                        progressBar1.PerformStep();
+                        progressBarStatus.Text = $"Loading from Modlist: {progressBar1.Value}/{progressBar1.Maximum}";
                     }
                 }
             }
@@ -178,6 +169,42 @@ namespace ConanExilesModlistManager
         {
             string installLocation = Properties.Settings.Default.InstallLocation;
             modlistLocation = installLocation + "/ConanSandbox/Mods/modlist.txt";
+        }
+
+        private ConanMod AddMod(long appID)
+        {
+            ConanMod mod = new ConanMod(appID);
+
+            if (!mods.Contains(mod))
+            {
+                mods.Add(mod);
+                modListView.Items.Add(mod.appID.ToString() + " - " + mod.title);
+            }
+
+            return mod;
+        }
+
+        private ConanMod AddMod(string path)
+        {
+            ConanMod mod = new ConanMod(path);
+
+            if (!mods.Contains(mod))
+            {
+                mods.Add(mod);
+                modListView.Items.Add(mod.appID.ToString() + " - " + mod.title);
+            }
+
+            return mod;
+        }
+
+        private void modListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (modListView.SelectedIndices.Count > 0)
+            {
+                ConanMod mod = mods[modListView.SelectedIndices[0]];
+                titleLabel.Text = mod.title;
+                urlLabel.Text = mod.url;
+            }
         }
     }
 }
