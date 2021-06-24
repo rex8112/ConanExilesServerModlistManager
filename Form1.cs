@@ -108,6 +108,7 @@ namespace ConanExilesModlistManager
                 int newIndex = index - 1;
                 ShiftModOrder(index, newIndex);
             }
+            modListView.Focus();
         }
 
         private void shiftDown_Click(object sender, EventArgs e)
@@ -118,6 +119,7 @@ namespace ConanExilesModlistManager
                 int newIndex = index + 1;
                 ShiftModOrder(index, newIndex);
             }
+            modListView.Focus();
         }
 
         private void chooseInstallLocation_Click(object sender, EventArgs e)
