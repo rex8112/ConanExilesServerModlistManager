@@ -24,6 +24,22 @@ namespace ConanExilesModlistManager
             this.title = this.GetTitle(this.url).Replace("Steam Workshop::", "");
         }
 
+        public ConanMod(string filePath)
+        {
+            string[] pathSegments = filePath.Split("\\");
+            string[] finalPathSegments = pathSegments[pathSegments.Length - 1].Split("/");
+            string modFile = finalPathSegments[1];
+            string appIDString = finalPathSegments[0];
+
+            bool result = long.TryParse(appIDString, out this.appID);
+
+            if (!result)
+                throw new Exceptions.InvalidConanModPathException("AppID couldn't be found. Improper path format.");
+
+            this.title = modFile.Replace(".pak", "");
+            this.url = WORKSHOP_TEMPLATE + this.appID.ToString();
+        }
+
         public override bool Equals(object obj) => this.Equals(obj as ConanMod);
 
         public bool Equals(ConanMod mod)
