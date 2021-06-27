@@ -21,7 +21,7 @@ namespace ConanExilesModlistManager
         {
             this.appID = appID;
             this.url = WORKSHOP_TEMPLATE + appID.ToString();
-            this.title = this.GetTitle(this.url).Replace("Steam Workshop::", "");
+            this.title = this.GetTitle(this.url);
         }
 
         public ConanMod(string filePath)
@@ -69,15 +69,31 @@ namespace ConanExilesModlistManager
         private string GetTitle(string url)
         {
             WebClient wc = new WebClient();
-            string content = wc.DownloadString(url);
-
+            string content = "Unset";
+            for (int i = 0; i < 5; i++)
+            {
+                try
+                {
+                    content = wc.DownloadString(url);
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    content = "<title>504 Bad Gateway</title>";
+                }
+            }
             Regex x = new Regex("<title>(.*)</title>");
             Match m = x.Match(content);
 
             string temp_title = m.Value.Replace("<title>", "");
             temp_title = temp_title.Replace("</title>", "");
 
-            return temp_title;
+            return temp_title.Replace("Steam Workshop::", "");
+        }
+
+        public void SetOnlineTitle()
+        {
+            this.title = this.GetTitle(this.url);
         }
     }
 }

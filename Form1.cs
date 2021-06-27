@@ -203,8 +203,30 @@ namespace ConanExilesModlistManager
             {
                 ConanMod mod = mods[modListView.SelectedIndices[0]];
                 titleLabel.Text = mod.title;
-                urlLabel.Text = mod.url;
+                modLink.Text = mod.url;
             }
+        }
+
+        private void getWebsiteTitle_Click(object sender, EventArgs e)
+        {
+            progressBarStatus.Text = "Getting Names from Workshop: 0/" + mods.Count.ToString();
+            progressBar1.Value = 0;
+            progressBar1.Maximum = mods.Count;
+
+            Task.Factory.StartNew(() =>
+            {
+                for (int i = 0; i < mods.Count; i++)
+                {
+                    ConanMod mod = mods[i];
+                    mod.SetOnlineTitle();
+                    this.Invoke((MethodInvoker)delegate 
+                    { 
+                        modListView.Items[i].Text = mod.appID.ToString() + " - " + mod.title;
+                        progressBar1.PerformStep();
+                        progressBarStatus.Text = $"Getting Names from Workshop: {i+1}/{mods.Count}";
+                    });
+                }
+            });
         }
     }
 }

@@ -43,6 +43,7 @@ namespace ConanExilesModlistManager
             this.loadFromCurrent = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.progressBarStatus = new System.Windows.Forms.Label();
+            this.getWebsiteTitle = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // appIDLabel
@@ -179,11 +180,22 @@ namespace ConanExilesModlistManager
             this.progressBarStatus.TabIndex = 13;
             this.progressBarStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // getWebsiteTitle
+            // 
+            this.getWebsiteTitle.Location = new System.Drawing.Point(670, 439);
+            this.getWebsiteTitle.Name = "getWebsiteTitle";
+            this.getWebsiteTitle.Size = new System.Drawing.Size(164, 23);
+            this.getWebsiteTitle.TabIndex = 14;
+            this.getWebsiteTitle.Text = "Get online names";
+            this.getWebsiteTitle.UseVisualStyleBackColor = true;
+            this.getWebsiteTitle.Click += new System.EventHandler(this.getWebsiteTitle_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(846, 535);
+            this.Controls.Add(this.getWebsiteTitle);
             this.Controls.Add(this.progressBarStatus);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.loadFromCurrent);
@@ -222,6 +234,7 @@ namespace ConanExilesModlistManager
         private System.Windows.Forms.Button loadFromCurrent;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label progressBarStatus;
+        private System.Windows.Forms.Button getWebsiteTitle;
     }
 }
 
