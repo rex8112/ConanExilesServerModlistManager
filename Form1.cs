@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace ConanExilesModlistManager
 {
@@ -11,6 +13,8 @@ namespace ConanExilesModlistManager
         List<ConanMod> mods = new List<ConanMod>();
         private bool _installLocationSet = false;
         private string modlistLocation = "";
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool InstallLocationSet
         {
             set
@@ -91,7 +95,7 @@ namespace ConanExilesModlistManager
 
         private void VisitLink()
         {
-            System.Diagnostics.Process.Start(modLink.Text);
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(modLink.Text) { UseShellExecute = true });
         }
 
         private void shiftUp_Click(object sender, EventArgs e)
@@ -119,7 +123,12 @@ namespace ConanExilesModlistManager
         private void chooseInstallLocation_Click(object sender, EventArgs e)
         {
             var locationSetter = new LocationForm();
-            locationSetter.Show();
+            locationSetter.ShowDialog(this);
+            if (Properties.Settings.Default.InstallLocation != "")
+            {
+                InstallLocationSet = true;
+                FillLocations();
+            }
         }
 
         private void loadFromCurrent_Click(object sender, EventArgs e)
@@ -207,26 +216,31 @@ namespace ConanExilesModlistManager
             }
         }
 
-        private void getWebsiteTitle_Click(object sender, EventArgs e)
+        private async void getWebsiteTitle_Click(object sender, EventArgs e)
         {
             progressBarStatus.Text = "Getting Names from Workshop: 0/" + mods.Count.ToString();
             progressBar1.Value = 0;
             progressBar1.Maximum = mods.Count;
-
-            Task.Factory.StartNew(() =>
+            var progress = new Progress<int>(amt =>
             {
-                for (int i = 0; i < mods.Count; i++)
-                {
-                    ConanMod mod = mods[i];
-                    mod.SetOnlineTitle();
-                    this.Invoke((MethodInvoker)delegate 
-                    { 
-                        modListView.Items[i].Text = mod.appID.ToString() + " - " + mod.title;
-                        progressBar1.PerformStep();
-                        progressBarStatus.Text = $"Getting Names from Workshop: {i+1}/{mods.Count}";
-                    });
-                }
+                var mod = mods[amt];
+                modListView.Items[amt].Text = mod.appID.ToString() + " - " + mod.title;
+                progressBar1.PerformStep();
+                progressBarStatus.Text = $"Getting Names from Workshop: {progressBar1.Value}/{mods.Count}";
             });
+
+            List<Task> tasks = [];
+            for (int i = 0; i < mods.Count; i++)
+            {
+                int index = i;
+                tasks.Add(Task.Run(async () => {
+                    ConanMod mod = mods[index];
+                    await mod.SetOnlineTitle();
+                    IProgress<int> progress1 = progress;
+                    progress1.Report(index);
+                }));
+            }
+            await Task.WhenAll(tasks);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace ConanExilesModlistManager
         {
             this.appID = appID;
             this.url = WORKSHOP_TEMPLATE + appID.ToString();
-            this.title = this.GetTitle(this.url);
+            this.title = this.GetTitle(this.url).Result;
         }
 
         public ConanMod(string filePath)
@@ -66,15 +67,15 @@ namespace ConanExilesModlistManager
 
         public static bool operator !=(ConanMod lhs, ConanMod rhs) => !(lhs == rhs);
 
-        private string GetTitle(string url)
+        private async Task<string> GetTitle(string url)
         {
-            WebClient wc = new WebClient();
+            HttpClient client = new();
             string content = "Unset";
             for (int i = 0; i < 5; i++)
             {
                 try
                 {
-                    content = wc.DownloadString(url);
+                    content = await client.GetStringAsync(url);
                     break;
                 }
                 catch (Exception ex)
@@ -91,9 +92,9 @@ namespace ConanExilesModlistManager
             return temp_title.Replace("Steam Workshop::", "");
         }
 
-        public void SetOnlineTitle()
+        public async Task SetOnlineTitle()
         {
-            this.title = this.GetTitle(this.url);
+            this.title = await this.GetTitle(this.url);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +31,7 @@ namespace ConanExilesModlistManager
                 Properties.Settings.Default.InstallLocation = folderBrowserDialog1.SelectedPath;
                 Properties.Settings.Default.Save();
                 mainLocationTextbox.Text = folderBrowserDialog1.SelectedPath;
+                this.SetModlistLocation(this.findModlistLocation(folderBrowserDialog1.SelectedPath));
             }
         }
 
@@ -38,10 +40,22 @@ namespace ConanExilesModlistManager
             DialogResult result = openFileDialog1.ShowDialog();
             if (result == DialogResult.OK)
             {
-                Properties.Settings.Default.ModlistLocation = openFileDialog1.FileName;
-                Properties.Settings.Default.Save();
-                modlistLocationTextbox.Text = openFileDialog1.FileName;
+                this.SetModlistLocation(folderBrowserDialog1.SelectedPath);
             }
+        }
+
+        private string findModlistLocation(string mainPath)
+        {
+            string path = Path.Combine(mainPath, "ConanSandbox\\Mods\\modlist.txt");
+            Console.WriteLine(path);
+            return path;
+        }
+
+        private void SetModlistLocation(string path)
+        {
+            Properties.Settings.Default.ModlistLocation = path;
+            Properties.Settings.Default.Save();
+            modlistLocationTextbox.Text = path;
         }
 
         private void closeButton_Click(object sender, EventArgs e)
